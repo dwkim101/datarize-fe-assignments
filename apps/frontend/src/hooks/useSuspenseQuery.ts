@@ -3,13 +3,15 @@ import { useMemo } from "react";
 const cache = new Map<string, WrapPromiseResult<unknown>>();
 
 export function useSuspenseQuery<T>(queryKey: string, queryFn: () => Promise<T>) {
-  return useMemo(() => {
+  const wrapPromiseResult = useMemo(() => {
     if (!cache.has(queryKey)) {
       cache.set(queryKey, wrapPromise(queryFn()));
     }
 
     return cache.get(queryKey) as WrapPromiseResult<T>;
   }, [queryFn, queryKey]);
+
+  return wrapPromiseResult.read();
 }
 
 type Status = "pending" | "success" | "error";
