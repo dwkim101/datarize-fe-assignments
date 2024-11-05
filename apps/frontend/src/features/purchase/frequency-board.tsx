@@ -30,7 +30,13 @@ export default function FrequencyBoard() {
       </Card.Description>
       <DateRangePicker range={dateRange} onChange={handleDateRangeChange} />
       <ErrorBoundary onReset={handleResetError}>
-        <Suspense fallback={<div>Loading... Frequency Chart</div>}>
+        <Suspense
+          fallback={
+            <div className="text-center animate-pulse bg-gray-900/20 flex h-96 items-center justify-center">
+              Loading... Frequency Chart
+            </div>
+          }
+        >
           <FrequencyChart range={dateRange} />
         </Suspense>
       </ErrorBoundary>
