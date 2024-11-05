@@ -4,11 +4,13 @@ import { ErrorBoundary } from "@components/error-boundary";
 
 import { CustomerList } from "./customer-list";
 import { invalidateCustomers } from "./hooks/useCustomers";
+import { useDebouncedValue } from "@hooks/useDebouncedValue";
 
 export function CustomerBoard() {
   const [, startTransition] = useTransition();
   const [sortBy, setSortBy] = useState<"asc" | "desc" | undefined>();
-  const [searchName, setSearchName] = useState("");
+
+  const { debouncedValue, setValue: setSearchName, value: searchName } = useDebouncedValue("");
 
   const handleSort = (value: "asc" | "desc" | undefined) => {
     startTransition(() => setSortBy(value));
@@ -19,7 +21,7 @@ export function CustomerBoard() {
     setSearchName(value);
   };
 
-  const handleResetError = () => invalidateCustomers({ sortBy, name: searchName });
+  const handleResetError = () => invalidateCustomers({ sortBy, name: debouncedValue });
 
   return (
     <Card>
@@ -47,7 +49,7 @@ export function CustomerBoard() {
       </div>
       <ErrorBoundary onReset={handleResetError}>
         <Suspense fallback={<div>Loading...</div>}>
-          <CustomerList sortBy={sortBy} searchName={searchName} />
+          <CustomerList sortBy={sortBy} searchName={debouncedValue} />
         </Suspense>
       </ErrorBoundary>
     </Card>
