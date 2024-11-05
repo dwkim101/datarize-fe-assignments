@@ -7,7 +7,7 @@ export interface Customer {
   totalAmount: number;
 }
 
-type GetCustomersParams = {
+export type GetCustomersParams = {
   sortBy?: "asc" | "desc";
   name?: string;
 };

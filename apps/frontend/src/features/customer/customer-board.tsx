@@ -1,7 +1,9 @@
 import { Suspense, useState, useTransition } from "react";
 import { Card } from "@components/card";
-import { CustomerList } from "./customer-list";
 import { ErrorBoundary } from "@components/error-boundary";
+
+import { CustomerList } from "./customer-list";
+import { invalidateCustomers } from "./hooks/useCustomers";
 
 export function CustomerBoard() {
   const [, startTransition] = useTransition();
@@ -12,10 +14,12 @@ export function CustomerBoard() {
     startTransition(() => setSortBy(value));
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const value = e.target.value;
     setSearchName(value);
   };
+
+  const handleResetError = () => invalidateCustomers({ sortBy, name: searchName });
 
   return (
     <Card>
@@ -41,7 +45,7 @@ export function CustomerBoard() {
           <option value="desc">구매 금액 높은 순</option>
         </select>
       </div>
-      <ErrorBoundary>
+      <ErrorBoundary onReset={handleResetError}>
         <Suspense fallback={<div>Loading...</div>}>
           <CustomerList sortBy={sortBy} searchName={searchName} />
         </Suspense>

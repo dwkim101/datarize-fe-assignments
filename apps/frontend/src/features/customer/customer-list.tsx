@@ -1,9 +1,7 @@
 import { useState } from "react";
 
-import { useSuspenseQuery } from "@hooks/useSuspenseQuery";
-import { getCustomers, Customer } from "@api/customer/index";
-
 import { CustomerPurchasesDialog } from "./customer-purchases-dialog";
+import { useCustomers } from "./hooks/useCustomers";
 
 interface CustomerListProps {
   sortBy?: "asc" | "desc";
@@ -12,9 +10,7 @@ interface CustomerListProps {
 
 export function CustomerList({ sortBy, searchName }: CustomerListProps) {
   const [detailedCustomerId, setDetailedCustomerId] = useState<number | null>(null);
-  const customers = useSuspenseQuery<Customer[]>(`customers-${sortBy}-${searchName}`, () =>
-    getCustomers({ sortBy, name: searchName })
-  );
+  const customers = useCustomers({ sortBy, name: searchName });
 
   if (!customers?.length) {
     return <div className="text-center py-4">검색 결과가 없습니다.</div>;
@@ -22,7 +18,7 @@ export function CustomerList({ sortBy, searchName }: CustomerListProps) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
+      <table className="min-w-full border divide-gray-200">
         <thead className="border">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">ID</th>
