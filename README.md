@@ -18,7 +18,7 @@ yarn start-client
 
 ### 접속 정보
 
-- 클라이언트: http://localhost:3000
+- 클라이언트: http://localhost:5173
 - 서버: http://localhost:4000
 
 ### 주요 기능
