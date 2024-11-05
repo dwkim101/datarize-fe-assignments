@@ -23,3 +23,17 @@ export const getCustomers = async (params?: GetCustomersParams) => {
 
   return client.get(url).then((res) => res.data as Customer[]);
 };
+
+type URLPath = string;
+
+type Purchase = {
+  date: `${string}-${string}-${string}`;
+  imgSrc: URLPath;
+  price: number;
+  product: string;
+  quantity: number;
+};
+
+export const getCustomerPurchases = async (id: number) => {
+  return client.get(`/api/customers/${id}/purchases`).then((res) => res.data as Purchase[]);
+};

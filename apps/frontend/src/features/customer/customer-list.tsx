@@ -1,5 +1,9 @@
+import { useState } from "react";
+
 import { useSuspenseQuery } from "@hooks/useSuspenseQuery";
 import { getCustomers, Customer } from "@api/customer/index";
+
+import { CustomerPurchasesDialog } from "./customer-purchases-dialog";
 
 interface CustomerListProps {
   sortBy?: "asc" | "desc";
@@ -7,6 +11,7 @@ interface CustomerListProps {
 }
 
 export function CustomerList({ sortBy, searchName }: CustomerListProps) {
+  const [detailedCustomerId, setDetailedCustomerId] = useState<number | null>(null);
   const customers = useSuspenseQuery<Customer[]>(`customers-${sortBy}-${searchName}`, () =>
     getCustomers({ sortBy, name: searchName })
   );
@@ -28,7 +33,11 @@ export function CustomerList({ sortBy, searchName }: CustomerListProps) {
         </thead>
         <tbody className="border divide-y divide-gray-200">
           {customers.map((customer) => (
-            <tr key={customer.id} className="hover:bg-green-700/40 cursor-pointer">
+            <tr
+              key={customer.id}
+              className="hover:bg-green-700/40 cursor-pointer"
+              onClick={() => setDetailedCustomerId(customer.id)}
+            >
               <td className="px-6 py-4 whitespace-nowrap">{customer.id}</td>
               <td className="px-6 py-4 whitespace-nowrap">{customer.name}</td>
               <td className="px-6 py-4 whitespace-nowrap">{customer.count}회</td>
@@ -37,6 +46,13 @@ export function CustomerList({ sortBy, searchName }: CustomerListProps) {
           ))}
         </tbody>
       </table>
+      {detailedCustomerId && (
+        <CustomerPurchasesDialog
+          customerName={customers.find((customer) => customer.id === detailedCustomerId)?.name}
+          customerId={detailedCustomerId}
+          onClose={() => setDetailedCustomerId(null)}
+        />
+      )}
     </div>
   );
 }
