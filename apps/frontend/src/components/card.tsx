@@ -9,5 +9,5 @@ Card.Title = React.memo(({ children }: { children: React.ReactNode }) => {
 });
 
 Card.Description = React.memo(({ children }: { children: React.ReactNode }) => {
-  return <div className="text-sm text-gray-900 dark:text-gray-100">{children}</div>;
+  return <div className="text-sm text-gray-500">{children}</div>;
 });
