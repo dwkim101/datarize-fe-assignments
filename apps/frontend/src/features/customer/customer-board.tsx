@@ -1,8 +1,7 @@
 import { Suspense, useState, useTransition } from "react";
 import { Card } from "@components/card";
 import { CustomerList } from "./customer-list";
-import ErrorBoundary from "@components/error-boundary";
-import { isClientError } from "@api/index";
+import { ErrorBoundary } from "@components/error-boundary";
 
 export function CustomerBoard() {
   const [, startTransition] = useTransition();

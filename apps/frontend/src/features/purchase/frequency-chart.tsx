@@ -1,13 +1,10 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 import { DateRange } from "@components/date-range-picker";
-import { getPurchaseFrequency } from "@api/purchase";
-import { useSuspenseQuery } from "@hooks/useSuspenseQuery";
+import { usePurchaseFrequency } from "./hooks/usePurchaseFrequency";
 
 export function FrequencyChart({ range }: { range: DateRange }) {
-  const frequencies = useSuspenseQuery(`purchase-frequency-${range.from}-${range.to}`, () =>
-    getPurchaseFrequency({ from: range.from.toISOString(), to: range.to.toISOString() })
-  );
+  const frequencies = usePurchaseFrequency(range);
 
   return (
     <div className="w-full h-96">

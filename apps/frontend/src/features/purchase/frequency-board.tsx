@@ -5,7 +5,8 @@ import { Card } from "@components/card";
 import { DateRange, DateRangePicker } from "@components/date-range-picker";
 
 import { FrequencyChart } from "./frequency-chart";
-import ErrorBoundary from "@components/error-boundary";
+import { ErrorBoundary } from "@components/error-boundary";
+import { invalidatePurchaseFrequency } from "./hooks/usePurchaseFrequency";
 
 const DEFAULT_DATE_RANGE = () => ({ from: new Date("2024-07-01"), to: new Date("2024-07-30") });
 
@@ -14,10 +15,10 @@ export default function FrequencyBoard() {
   const [dateRange, setDateRange] = useState(DEFAULT_DATE_RANGE());
 
   const handleDateRangeChange = (range: DateRange) => {
-    startTransition(() => {
-      setDateRange(range);
-    });
+    startTransition(() => setDateRange(range));
   };
+
+  const handleResetError = () => invalidatePurchaseFrequency(dateRange);
 
   return (
     <Card>
@@ -28,8 +29,8 @@ export default function FrequencyBoard() {
         합니다. 날짜를 선택해서 특정 기간을 조회할 수 있도록 구현해주세요.
       </Card.Description>
       <DateRangePicker range={dateRange} onChange={handleDateRangeChange} />
-      <ErrorBoundary onReset={() => handleDateRangeChange(DEFAULT_DATE_RANGE())}>
-        <Suspense fallback={<div>Loading...Chart</div>}>
+      <ErrorBoundary onReset={handleResetError}>
+        <Suspense fallback={<div>Loading... Frequency Chart</div>}>
           <FrequencyChart range={dateRange} />
         </Suspense>
       </ErrorBoundary>

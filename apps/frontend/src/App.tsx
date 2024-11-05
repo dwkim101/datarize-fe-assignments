@@ -1,8 +1,8 @@
-import ErrorBoundary from "./components/error-boundary";
 import { Card } from "./components/card";
 import { Layout } from "./layout";
 import FrequencyBoard from "./features/purchase/frequency-board";
 import { CustomerBoard } from "./features/customer/customer-board";
+import { ErrorBoundary } from "@components/error-boundary";
 
 function App() {
   return (

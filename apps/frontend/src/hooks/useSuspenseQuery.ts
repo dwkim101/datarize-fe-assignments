@@ -2,6 +2,10 @@ import { useMemo } from "react";
 
 const cache = new Map<string, WrapPromiseResult<unknown>>();
 
+export function invalidateQuery(queryKey: string) {
+  cache.delete(queryKey);
+}
+
 export function useSuspenseQuery<T>(queryKey: string, queryFn: () => Promise<T>) {
   const wrapPromiseResult = useMemo(() => {
     if (!cache.has(queryKey)) {
