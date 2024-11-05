@@ -67,3 +67,12 @@ yarn start-client
 ### 추가 요구 사항
 
 코드의 가독성을 위해 적절한 주석을 추가하세요. 필요한 경우, 유닛 테스트를 작성하여 주요 기능을 검증하세요.
+
+---
+
+#### 과제 소개 개선을 위한 보고사항 메모
+
+1. `세부 구현 사항` 내 API 명세에 3번 GET 경로 오타가 있습니다
+   /api/customer/{id}/purchases`를 /api/customers/{id}/purchases`로, "customers"로 수정해야 backend 동작과 대응됩니다.
+2. GET `/api/purchase-frequency` API의 경우, 현재 100% 확률로 실패합니다.
+   [이 부분](https://github.com/jonghyung-lee/datarize-fe-assignments/blob/c066d8e2a4b36050ec0adb211db157b2084c1442/apps/backend/src/routes/purchaseFrequency.ts#L8)이 원인으로, 요구사항 "가격대별 구매 빈도 차트" 구현을 위해서는 임의수정이 불가피하므로, 해당 부분 조건식을 수정하길 제안드립니다.
