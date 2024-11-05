@@ -1,7 +1,7 @@
 import client from "@api/index";
 
 type PurchaseFrequency = {
-  range: string;
+  range: `${number} - ${number}`;
   count: number;
 };
 
