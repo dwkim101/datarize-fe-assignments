@@ -1,6 +1,8 @@
 import axios, { AxiosError } from "axios";
 
-export const isClientError = (error: unknown): error is AxiosError<{ error: string }> => {
+export type ClientError = AxiosError<{ error: string }>;
+
+export const isClientError = (error: unknown): error is ClientError => {
   return error instanceof AxiosError;
 };
 
